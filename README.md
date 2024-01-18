@@ -1,1 +1,1 @@
-A cryptosuite project entailing multiple cryptographic algorithms.
+# Dynamic Cryptosuite
