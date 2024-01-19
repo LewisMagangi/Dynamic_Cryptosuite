@@ -12,4 +12,12 @@ the project ending up consuming more human and time resources than intended to a
 
 Thanks to the cryptography community the best algorithms in terms of robustness (strength against attacks) have been upvoted based on their preformance against tests made by the community
 considering that the algorithms are made public for security reviews. This handles to a large extent the dillema but on the security aspect majorly. Cryptographers aren't skilled  in the 
-dynamics of system dojnevelopment or software engineering to advise to optimisation techniques
+dynamics of system dojnevelopment or software engineering to advise on optimisation techniques that entail the algorithms usage in different setups. System Admins/Software Engineers circle of 
+competency and higher level of understanding on the whole system / website or application enables them to handle optimisation better. But still this is a challenge because of the limited resouces
+that are available to cater for the cryptography aspect which is just a branch of the security which is a portion of the whole system. This needs individuals whose main focus is to deal with
+the problem with the problem as a project with the dillema as the main project. 
+
+##  Solution  
+We intend to solve the problemby molding a system whose main intent is to optimize performance of systems by selecting algorithms dynamically based on the needs of the sytems. We'll subdivide
+our system to subsystems based on the funtionality of the Algorithms; Hashign Algorithms are used for verification of message Integrity hence will have a subsystem on it's own.
+
