@@ -1,11 +1,17 @@
-# Dynamic Cryptosuite
+#!/usr/bin/env bash
 
-##  Software Engineers Dillema
+# Check if any arguments are provided
+if [ "$#" -eq 0 ]; then
+    git add .
+else
+    for file in "$@"; do
+	git add "$file"
+    done
+fi
 
-In the world of IT there's always a dillama on the best Algorithm to use. Developers aren't sphere of compitency isn't that intertwined with security more so cryptograpyh. Many developers while 
-developing websites, systems or applications tend to use an  algorithm with a reputable reputation or one that the've used before or one that they're advised to use by advanced engineers.
-Whichever the method used to select the algorithm, there's a dilemma on which is the most effecient and robust cryptography algorithm to be used. There's always a temptation by the developers 
-to tweak the Implementation of an algorithm to make it faster, less power consumption (This matters much on a large scale production project where the team intends to lower down the maintainence 
-cost). On the other hand cryptographers and cryptoanalysts undestand better the negative implications of such an endeavour. Engineers on the other hand might be aware of the resultant implications
-of such an ordeal and choose to get all hands on deck to pick an algorithm. The issue with this approach is that they may unconciously shift a greater focus on the cryptography-security aspect of
-the project ending up consuming more human and time resources than intended to attain the goal on mind due to the uncertainity of when the perfect algorithm will be acquired.  
+echo 'Enter the commit message:'
+read commitMessage
+
+git commit -m "$commitMessage"
+
+git push
