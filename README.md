@@ -61,7 +61,7 @@ Explain how people can contribute to your project. Include guidelines for submit
 
 ## License
 
-Specify the license under which your project is distributed.
+This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
