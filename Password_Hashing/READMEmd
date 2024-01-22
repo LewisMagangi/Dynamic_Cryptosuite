@@ -1,0 +1,5 @@
+# Password Hashing
+
+1. PBKDF 2
+2. bcrypt
+3. scrypt
