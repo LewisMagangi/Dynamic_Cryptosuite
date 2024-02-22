@@ -7,7 +7,7 @@ def sha256(message=None, key_size=None):
         message = b'Hello, World!'
     if key_size is None:
         key_size = 32
-    hkdf = HKDF(hashlib.sha256, key_size, b'salt', b'info')
+    hkdf = HKDF(hashlib.sha256(), key_size, b'salt', b'info')
     hkdf.update(message)
     return hkdf.read(key_size)
 
@@ -37,12 +37,12 @@ def shake256(message=None, byte_size=None):
     return shake.read(byte_size)
 
 def main():
-    print("SHA-256:", sha256())
-    print("SHA3-256:", sha3_256())
-    print("SHAKE128:", shake128())
-    print("SHAKE256:", shake256())
+    print("SHA-256:", sha256(b'Hello, World!', 64))
+    print("SHA3-256:", sha3_256(b'Hello, World!', 64))
+    print("SHAKE128:", shake128(b'Hello, World!', 64))
+    print("SHAKE256:", shake256(b'Hello, World!', 64))
 
-if _name_ == "_main_":
+if __name__== "_main_":
     main()
 
 print("SHA-256:", sha256(b'Hello, World!', 64))
