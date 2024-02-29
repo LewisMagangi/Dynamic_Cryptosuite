@@ -1,1 +1,0 @@
-# A code to encrypt and decrypt using bycrpt
