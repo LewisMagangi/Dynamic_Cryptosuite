@@ -11,6 +11,8 @@ def encrypt_decrypt_rsa(original_message, key_size=2048):
     # Generate RSA key pair with the specified key size
     key = RSA.generate(key_size)
 
+    print(key)
+
     # Get the public and private key
     public_key = key.publickey()
     private_key = key
@@ -18,6 +20,7 @@ def encrypt_decrypt_rsa(original_message, key_size=2048):
     # Encrypt the message using the public key
     cipher = PKCS1_OAEP.new(public_key)
     encrypted_message = cipher.encrypt(original_message.encode())
+    print(f"Encrypted Message :{encrypted_message}")
 
     # Decrypt the message using the private key
     cipher = PKCS1_OAEP.new(private_key)
