@@ -1,0 +1,29 @@
+#!/bin/env bash
+
+# Update package index
+sudo apt update
+
+# List of additional packages to install
+packages=('emacs' 'nano') # Add other packages you want to install here
+
+# Install additional packages
+for pkg in "${packages[@]}"; do
+    if apt-cache search "$pkg" >/dev/null; then
+        sudo apt install -y "$pkg"
+    else
+        echo "Error: Unable to locate package $pkg"
+    fi
+done
+
+# Install pycryptodome, cryptography, bcrypt, and scrypt using pip3
+pip_packages=('pycryptodome' 'cryptography' 'bcrypt' 'scrypt')
+for pip_pkg in "${pip_packages[@]}"; do
+    if pip3 show "$pip_pkg" &>/dev/null; then
+        echo "$pip_pkg already installed."
+    else
+        echo "Installing $pip_pkg..."
+        sudo pip3 install "$pip_pkg"
+    fi
+done
+
+echo "Installation of packages complete."
