@@ -26,7 +26,7 @@ for pkg in "${packages[@]}"; do
 done
 
 # Install pycryptodome, cryptography, bcrypt, and scrypt using pip3
-pip_packages=('pycryptodome' 'cryptography' 'bcrypt' 'scrypt')
+pip_packages=('pycryptodome' 'cryptography' 'bcrypt' 'scrypt' 'pycrypto')
 for pip_pkg in "${pip_packages[@]}"; do
     if pip3 show "$pip_pkg" &>/dev/null; then
         echo "$pip_pkg already installed."
