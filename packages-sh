@@ -1,7 +1,13 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
 # Update package index
 sudo apt update
+
+# Install pip3 if not already installed
+if ! command -v pip3 &>/dev/null; then
+    echo "Installing pip3..."
+    sudo apt install -y python3-pip
+fi
 
 # List of additional packages to install
 packages=('emacs' 'nano') # Add other packages you want to install here
@@ -9,7 +15,11 @@ packages=('emacs' 'nano') # Add other packages you want to install here
 # Install additional packages
 for pkg in "${packages[@]}"; do
     if apt-cache search "$pkg" >/dev/null; then
-        sudo apt install -y "$pkg"
+        if ! dpkg -l | grep -q "^ii.*$pkg "; then
+            sudo apt install -y "$pkg"
+        else
+            echo "$pkg already installed."
+        fi
     else
         echo "Error: Unable to locate package $pkg"
     fi
