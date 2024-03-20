@@ -5,7 +5,7 @@ import sys
 def encrypt_decrypt_rsa(original_message, key_size=2048):
     # Check if the key size is valid
     if key_size not in [1024, 2048, 3072, 4096]:
-        print("Error: Invalid key size. Supported key sizes are 1024, 2048, 3072, or 4096.")
+        print("Error: Invalid key size. Supported key sizes are 1024, 2048, 3072, 4096.")
         sys.exit(1)
 
     # Generate RSA key pair with the specified key size
