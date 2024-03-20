@@ -2,4 +2,4 @@
 
 1. RSA
 2. DSA
-3. ECDSA - pip install cryptography
+3. ECDSA - pip3 install cryptography
