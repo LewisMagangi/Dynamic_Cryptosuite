@@ -1,5 +1,9 @@
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
+import sys
+import time
 
 def aes_gcm_encrypt(message, key):
     cipher = AES.new(key, AES.MODE_GCM)
@@ -11,24 +15,48 @@ def aes_gcm_decrypt(ciphertext, key, nonce, tag):
     plaintext = cipher.decrypt_and_verify(ciphertext, tag)
     return plaintext.decode()
 
-# Example usage:
-key = get_random_bytes(16)  # 128-bit key
+def read_and_store_file(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            file_contents = file.read()
+        return file_contents
+    except FileNotFoundError:
+        print(f"File '{file_path}' not found.")
+        return None
+    except Exception as e:
+        print(f"An error occurred while reading the file '{file_path}': {e}")
+        return None
+    
+def main():
+    # Check if any arguments are provided
+    if len(sys.argv) < 2:
+        print("Usage: python script.py <file_path>")
+        sys.exit(1)
 
-def demo_aes_gcm_encrypt(key, message="This is an example message to illustrate how aes works"):
-    ciphertext, nonce, tag = aes_gcm_encrypt(message, key)
-    print("Ciphertext:", ciphertext)
-    print("Nonce:", nonce)
-    print("Tag:", tag)
-    return ciphertext, nonce, tag
+    # Read file contents
+    file_path = sys.argv[1]
+    plaintext = read_and_store_file(file_path)
+    if plaintext is None:
+        print("Exiting due to error in reading the file.")
+        sys.exit(1)
 
-def demo_aes_gcm_decrypt(key, ciphertext, nonce, tag):
-    plaintext = aes_gcm_decrypt(ciphertext, key, nonce, tag)
-    print("Plaintext:", plaintext)
-    return plaintext
+    # Generate random key for AES encryption
+    aes_key = get_random_bytes(16)  # 128-bit key
 
-# Example usage with demo text:
-print("Encrypting demo text:")
-ciphertext, nonce, tag = demo_aes_gcm_encrypt(key)
+    # Record the start time for the entire process
+    start_total_time = time.time()
 
-print("\nDecrypting demo text:")
-demo_aes_gcm_decrypt(key, ciphertext, nonce, tag)
+    # Encrypt data with AES
+    ciphertext, nonce, tag, encryption_time = aes_gcm_encrypt(plaintext, aes_key)
+    print("AES Encryption Time:", encryption_time, "seconds")
+
+    # Decrypt data with AES
+    decrypted_text, decryption_time = aes_gcm_decrypt(ciphertext, aes_key, nonce, tag)
+    print("AES Decryption Time:", decryption_time, "seconds")
+
+    # Record the end time
+    end_total_time = time.time()
+    print("Total execution time:", end_total_time - start_total_time, "seconds")
+
+if __name__ == "__main__":
+    main()
