@@ -28,10 +28,23 @@ def sign_and_verify(data):
     except InvalidSignature:
         print("Signature is invalid.")
 
+def read_file(file_name):
+    try:
+        with open(file_name, 'rb') as file:  # Opening file in binary mode to read bytes
+            file_content = file.read()
+        return file_content
+    except FileNotFoundError:
+        print(f"File '{file_name}' not found.")
+        return None
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python3 ecdsa-dig.py <data_to_be_signed>")
+        print("Usage: python3 ecdsa-dig.py <file_name>")
         sys.exit(1)
 
-    data = sys.argv[1].encode('utf-8')  # Convert data to bytes
+    file_name = sys.argv[1]
+    data = read_file(file_name)
+    if data is None:
+        sys.exit(1)
+
     sign_and_verify(data)
