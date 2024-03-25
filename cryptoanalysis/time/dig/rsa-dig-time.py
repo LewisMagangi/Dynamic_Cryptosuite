@@ -12,6 +12,7 @@ def sign_and_verify(message):
     # Convert message to bytes
     data = message.encode('utf-8')
 
+    print(message)
     # Sign the data
     start_time = time.time()
     signature = private_key.sign(
@@ -40,10 +41,23 @@ def sign_and_verify(message):
     except InvalidSignature:
         print("Signature is invalid.")
 
+def read_file(file_name):
+    try:
+        with open(file_name, 'r') as file:
+            file_content = file.read()
+        return file_content
+    except FileNotFoundError:
+        print(f"File '{file_name}' not found.")
+        return None
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python script.py <message_to_be_signed>")
+        print("Usage: python script.py <file_name>")
         sys.exit(1)
 
-    message = sys.argv[1]
+    file_name = sys.argv[1]
+    message = read_file(file_name)
+    if message is None:
+        sys.exit(1)
+
     sign_and_verify(message)
