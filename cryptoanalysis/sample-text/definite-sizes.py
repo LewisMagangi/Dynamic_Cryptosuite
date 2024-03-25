@@ -10,7 +10,7 @@ def generate_text_data(size_in_bytes):
     return text
 
 # Define sizes for text data generation
-sizes = [1, 2, 4, 8, 16, 32]  # Sizes in bytes
+sizes = [64, 128, 256, 512,]  # Sizes in bytes
 
 # Generate text data for each size and overwrite the existing files
 for size in sizes:
