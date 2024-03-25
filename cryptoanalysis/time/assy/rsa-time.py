@@ -4,15 +4,8 @@ import sys
 import time
 
 def encrypt_decrypt_rsa(original_message, key_size=2048):
-    # Check if the key size is valid
-    if key_size not in [1024, 2048, 3072, 4096]:
-        print("Error: Invalid key size. Supported key sizes are 1024, 2048, 3072, 4096.")
-        sys.exit(1)
-
     # Generate RSA key pair with the specified key size
     key = RSA.generate(key_size)
-
-    print(key)
 
     # Get the public and private key
     public_key = key.publickey()
@@ -21,35 +14,60 @@ def encrypt_decrypt_rsa(original_message, key_size=2048):
     # Encrypt the message using the public key
     cipher = PKCS1_OAEP.new(public_key)
 
-    start_time = time.time()
+    # Encrypt the message and record the encryption time
+    start_encrypt_time = time.time()
     encrypted_message = cipher.encrypt(original_message.encode())
-    end_time = time.time()
-    print("Encryption time: %0.6f seconds" % (round(end_time - start_time, 6)))
+    end_encrypt_time = time.time()
+    encryption_time = end_encrypt_time - start_encrypt_time
 
     # Decrypt the message using the private key
     cipher = PKCS1_OAEP.new(private_key)
 
-    start_time = time.time()
+    start_decrypt_time = time.time()
     decrypted_message = cipher.decrypt(encrypted_message)
-    end_time = time.time()
-    print("Decryption time: %0.6f seconds" % (round(end_time - start_time, 6)))
+    end_decrypt_time = time.time()
+    decryption_time = end_decrypt_time - start_decrypt_time
 
-    return decrypted_message.decode()
+    return decrypted_message.decode(), encryption_time, decryption_time
+
+def read_file(filename):
+    with open(filename, 'r') as file:
+        return file.read()
+
+def write_file(filename, content):
+    with open(filename, 'w') as file:
+        file.write(content)
 
 if __name__ == "__main__":
     # Check if any arguments are provided
     if len(sys.argv) > 1:
-        original_message = sys.argv[1]
+        input_file = sys.argv[1]
     else:
-        # Use a default message if no arguments provided
-        original_message = "Hi how are you ?"
+        print("Usage: python script.py <input_file>")
+        sys.exit(1)
 
     key_size = int(sys.argv[2]) if len(sys.argv) > 2 else 2048
 
+    # Record the start time for both reading and encryption
+    start_total_time = time.time()
+
+    # Read plaintext from file
+    start_read_time = time.time()
+    plaintext = read_file(input_file)
+    end_read_time = time.time()
+    read_time = end_read_time - start_read_time
+
     # Perform encryption and decryption with RSA
     try:
-        decrypted_message = encrypt_decrypt_rsa(original_message, key_size)
-        print("Original message:", original_message)
-        print("Decrypted message:", decrypted_message)
-    except ValueError:
-        print("Error: Invalid key size. Supported key sizes are 1024, 2048, 3072, or 4096.")
+        decrypted_message, encryption_time, decryption_time = encrypt_decrypt_rsa(plaintext, key_size)
+        #print("Original message:", plaintext)
+        #print("Decrypted message:", decrypted_message)
+        print("Time taken to read plaintext:", read_time)
+        print("Encryption time:", encryption_time)
+        print("Decryption time:", decryption_time)
+    except Exception as e:
+        print("Error:", e)
+
+    # Record the end time
+    end_total_time = time.time()
+    print("Total execution time:", end_total_time - start_total_time, "seconds")

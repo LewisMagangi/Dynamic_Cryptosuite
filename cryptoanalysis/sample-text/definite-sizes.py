@@ -11,7 +11,7 @@ def generate_text_data(size_in_bytes):
     return text
 
 # Define sizes for text data generation
-sizes = [64, 128, 256, 512, 1024, 2048]  # Sizes in bytes
+sizes = [1, 2, 4, 8, 16, 32]  # Sizes in bytes
 
 # Generate text data for each size and save it into a separate file
 for size in sizes:
