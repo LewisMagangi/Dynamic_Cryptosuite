@@ -1,9 +1,3 @@
-from Crypto.Signature import DSS
-from Crypto.Hash import SHA256
-from Crypto.PublicKey import DSA
-import time
-import sys
-
 def sign_and_verify(data="Default data to be signed"):
     # Generate DSA key pair
     key = DSA.generate(2048)
@@ -17,7 +11,7 @@ def sign_and_verify(data="Default data to be signed"):
     signer = DSS.new(key, 'fips-186-3')
     signature = signer.sign(hash_func)
     end_time = time.time()
-    signing_time = end_time - start_time
+    signing_time = "{:.6f}".format(end_time - start_time)
     print("Signing Time:", signing_time, "seconds")
 
     # Verify the signature
@@ -29,13 +23,5 @@ def sign_and_verify(data="Default data to be signed"):
     except (ValueError, TypeError):
         print("Signature is invalid.")
     end_time = time.time()
-    verification_time = end_time - start_time
+    verification_time = "{:.6f}".format(end_time - start_time)
     print("Verification Time:", verification_time, "seconds")
-
-if __name__ == "__main__":
-    if len(sys.argv) > 2:
-        print("Usage: python3 dsa-dig-time.py [data_to_be_signed]")
-        sys.exit(1)
-
-    data = sys.argv[1] if len(sys.argv) == 2 else "Default data to be signed"
-    sign_and_verify(data)

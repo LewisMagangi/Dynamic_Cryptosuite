@@ -3,7 +3,7 @@ from Crypto.Cipher import PKCS1_OAEP
 import sys
 import time
 
-def encrypt_decrypt_rsa(original_message, key_size=2048):
+def encrypt_decrypt_rsa(original_message, key_size=2048, iterations=500):
     # Generate RSA key pair with the specified key size
     key = RSA.generate(key_size)
 
@@ -11,24 +11,33 @@ def encrypt_decrypt_rsa(original_message, key_size=2048):
     public_key = key.publickey()
     private_key = key
 
-    # Encrypt the message using the public key
-    cipher = PKCS1_OAEP.new(public_key)
+    # Initialize lists to store times for each iteration
+    encryption_times = []
+    decryption_times = []
 
-    # Encrypt the message and record the encryption time
-    start_encrypt_time = time.time()
-    encrypted_message = cipher.encrypt(original_message.encode())
-    end_encrypt_time = time.time()
-    encryption_time = end_encrypt_time - start_encrypt_time
+    for _ in range(iterations):
+        # Encrypt the message using the public key
+        cipher = PKCS1_OAEP.new(public_key)
 
-    # Decrypt the message using the private key
-    cipher = PKCS1_OAEP.new(private_key)
+        # Encrypt the message and record the encryption time
+        start_encrypt_time = time.time()
+        encrypted_message = cipher.encrypt(original_message.encode())
+        end_encrypt_time = time.time()
+        encryption_times.append(end_encrypt_time - start_encrypt_time)
 
-    start_decrypt_time = time.time()
-    decrypted_message = cipher.decrypt(encrypted_message)
-    end_decrypt_time = time.time()
-    decryption_time = end_decrypt_time - start_decrypt_time
+        # Decrypt the message using the private key
+        cipher = PKCS1_OAEP.new(private_key)
 
-    return decrypted_message.decode(), encryption_time, decryption_time
+        start_decrypt_time = time.time()
+        decrypted_message = cipher.decrypt(encrypted_message)
+        end_decrypt_time = time.time()
+        decryption_times.append(end_decrypt_time - start_decrypt_time)
+
+    # Calculate average encryption and decryption times
+    average_encryption_time = sum(encryption_times) / iterations
+    average_decryption_time = sum(decryption_times) / iterations
+
+    return decrypted_message.decode(), average_encryption_time, average_decryption_time
 
 def read_file(filename):
     with open(filename, 'r') as file:
@@ -59,12 +68,14 @@ if __name__ == "__main__":
 
     # Perform encryption and decryption with RSA
     try:
-        decrypted_message, encryption_time, decryption_time = encrypt_decrypt_rsa(plaintext, key_size)
+        decrypted_message, avg_encryption_time, avg_decryption_time = encrypt_decrypt_rsa(plaintext, key_size)
+
         #print("Original message:", plaintext)
         #print("Decrypted message:", decrypted_message)
-        print("Time taken to read plaintext:", read_time)
-        print("Encryption time:", encryption_time)
-        print("Decryption time:", decryption_time)
+        #print("Time taken to read plaintext:", read_time)
+        print("Average encryption time:", avg_encryption_time)
+        print("Average decryption time:", avg_decryption_time)
+
     except Exception as e:
         print("Error:", e)
 

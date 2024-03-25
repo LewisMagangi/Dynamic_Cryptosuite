@@ -38,10 +38,19 @@ def verify_signature(public_key, message, signature):
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python3 ecc.py <message>")
+        print("Usage: python3 ecc.py <filename>")
         return
 
-    message = sys.argv[1].encode('utf-8')
+    filename = sys.argv[1]
+
+    try:
+        with open(filename, 'rb') as file:
+            message = file.read()
+            print("Message:")
+            print(message.decode('utf-8'))  # Print the text message
+    except FileNotFoundError:
+        print("File not found.")
+        return
 
     private_key, public_key = generate_key_pair()
     save_key_pair(private_key, public_key)
