@@ -3,7 +3,7 @@ from Crypto.Cipher import PKCS1_OAEP
 import sys
 import time
 
-def encrypt_decrypt_rsa(original_message, key_size=2048, iterations=500):
+def encrypt_decrypt_rsa(original_message, key_size=2048, iterations=2):
     # Generate RSA key pair with the specified key size
     key = RSA.generate(key_size)
 
@@ -14,11 +14,9 @@ def encrypt_decrypt_rsa(original_message, key_size=2048, iterations=500):
     # Initialize lists to store times for each iteration
     encryption_times = []
     decryption_times = []
-
     for _ in range(iterations):
         # Encrypt the message using the public key
         cipher = PKCS1_OAEP.new(public_key)
-
         # Encrypt the message and record the encryption time
         start_encrypt_time = time.time()
         encrypted_message = cipher.encrypt(original_message.encode())
@@ -47,14 +45,13 @@ def write_file(filename, content):
     with open(filename, 'w') as file:
         file.write(content)
 
-if __name__ == "__main__":
+def main():
     # Check if any arguments are provided
-    if len(sys.argv) > 1:
-        input_file = sys.argv[1]
-    else:
-        print("Usage: python script.py <input_file>")
+    if len(sys.argv) < 2:
+        print("Usage: python script.py <input_file> [key_size]")
         sys.exit(1)
 
+    input_file = sys.argv[1]
     key_size = int(sys.argv[2]) if len(sys.argv) > 2 else 2048
 
     # Record the start time for both reading and encryption
@@ -70,9 +67,7 @@ if __name__ == "__main__":
     try:
         decrypted_message, avg_encryption_time, avg_decryption_time = encrypt_decrypt_rsa(plaintext, key_size)
 
-        #print("Original message:", plaintext)
-        #print("Decrypted message:", decrypted_message)
-        #print("Time taken to read plaintext:", read_time)
+        # Print results
         print("Average encryption time:", avg_encryption_time)
         print("Average decryption time:", avg_decryption_time)
 
@@ -82,3 +77,6 @@ if __name__ == "__main__":
     # Record the end time
     end_total_time = time.time()
     print("Total execution time:", end_total_time - start_total_time, "seconds")
+
+if __name__ == "__main__":
+    main()
