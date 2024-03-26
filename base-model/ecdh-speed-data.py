@@ -67,7 +67,7 @@ def main():
             print(f"Error handling file ({size}): {str(e)}")
 
         elapsed_time = time.time() - start_time
-        print(f"ECC {chr(9)} {size} {chr(9)}   | {elapsed_time}")
+        print(f"ECDH {chr(9)} {size} {chr(9)}   | {elapsed_time}")
 
 if __name__ == "__main__":
     main()

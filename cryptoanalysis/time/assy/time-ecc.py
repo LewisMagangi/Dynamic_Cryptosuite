@@ -1,3 +1,4 @@
+import subprocess
 from Crypto.PublicKey import ECC
 from Crypto.Signature import DSS
 from Crypto.Hash import SHA256
@@ -42,7 +43,7 @@ def main():
     start_time = time.time()
 
     if len(sys.argv) != 2:
-        print("Usage: python3 ecc.py <filename>")
+        print("Usage: python3 script1.py <filename>")
         return
 
     filename = sys.argv[1]
@@ -70,6 +71,9 @@ def main():
     # Calculate elapsed time
     elapsed_time = end_time - start_time
     print("Total time taken:", elapsed_time, "seconds")
+
+    # Call the second script and pass the elapsed time as a command-line argument
+    subprocess.run(["python", "..\fastest-algo.py", str(elapsed_time)])
 
 if __name__ == "__main__":
     main()
