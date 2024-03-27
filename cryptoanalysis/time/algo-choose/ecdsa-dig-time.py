@@ -1,4 +1,5 @@
 import sys
+import subprocess
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec
@@ -25,14 +26,16 @@ def sign_and_verify(data):
         verification_time = end_time - start_time
         print("Signature is valid.")
         print("Verification Time:", verification_time, "seconds")
+
+        total_time =  signing_time + verification_time
+        print("Total Time: ", total_time, "seconds")
     except InvalidSignature:
         print("Signature is invalid.")
 
-    total_time = signing_time + verification_time
-    print("Total time :", total_time)
-
-    with open('ecdsa_verification_time.txt', 'w') as elapsed_time_file:
+    with open('ecdsa_total-time.txt', 'w') as elapsed_time_file:
         elapsed_time_file.write(str(total_time))
+
+    return signing_time, verification_time
 
 def read_file(file_name):
     try:
@@ -53,4 +56,7 @@ if __name__ == "__main__":
     if data is None:
         sys.exit(1)
 
-    sign_and_verify(data)
+    signing_time, verification_time = sign_and_verify(data)
+
+    # Call the second script (fastest-algo.py) and pass the signing time as a command-line argument
+    #subprocess.run(["python", "fastest-algo.py", str(signing_time)])
