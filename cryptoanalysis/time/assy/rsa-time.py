@@ -20,6 +20,7 @@ def encrypt_decrypt_rsa(original_message, key_size=2048, iterations=2):
         # Encrypt the message and record the encryption time
         start_encrypt_time = time.time()
         encrypted_message = cipher.encrypt(original_message.encode())
+        print("Encrypted message :", encrypted_message)
         end_encrypt_time = time.time()
         encryption_times.append(end_encrypt_time - start_encrypt_time)
 
@@ -34,6 +35,8 @@ def encrypt_decrypt_rsa(original_message, key_size=2048, iterations=2):
     # Calculate average encryption and decryption times
     average_encryption_time = sum(encryption_times) / iterations
     average_decryption_time = sum(decryption_times) / iterations
+
+    print(decrypted_message)
 
     return decrypted_message.decode(), average_encryption_time, average_decryption_time
 
@@ -60,12 +63,14 @@ def main():
     # Read plaintext from file
     start_read_time = time.time()
     plaintext = read_file(input_file)
+    #print(plaintext)
     end_read_time = time.time()
     read_time = end_read_time - start_read_time
 
     # Perform encryption and decryption with RSA
     try:
         decrypted_message, avg_encryption_time, avg_decryption_time = encrypt_decrypt_rsa(plaintext, key_size)
+
 
         # Print results
         print("Average encryption time:", avg_encryption_time)
