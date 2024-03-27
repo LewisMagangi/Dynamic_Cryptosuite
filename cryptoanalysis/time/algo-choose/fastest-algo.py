@@ -13,7 +13,7 @@ def compare_algorithm_speed():
             print("ECC Total Time:", ecc_time, "seconds")
 
         # Reading ECDSA total time
-        with open('ecdsa_verification_time.txt', 'r') as ecdsa_file:
+        with open('ecdsa_total-time.txt', 'r') as ecdsa_file:
             ecdsa_time = float(ecdsa_file.read().strip())
             print("ECDSA Total Time:", ecdsa_time, "seconds")
 

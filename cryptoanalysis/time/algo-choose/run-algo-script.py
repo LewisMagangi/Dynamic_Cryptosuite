@@ -12,7 +12,7 @@ def run_crypto_analysis_scripts(input_file):
         f"python aes-time.py {input_file}",
         f"python ecdh-aes-time.py {input_file}",
         f"python ecc-time.py {input_file}",
-        f"python ecdsa_dig_time.py {input_file}"
+        f"python ecdsa-dig-time.py {input_file}"
         # Add more scripts if needed
     ]
 
