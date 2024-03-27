@@ -29,6 +29,7 @@ def sign_and_verify(data):
         print("Signature is invalid.")
 
     total_time = signing_time + verification_time
+    print("Total time :", total_time)
 
     with open('ecdsa_verification_time.txt', 'w') as elapsed_time_file:
         elapsed_time_file.write(str(total_time))
