@@ -72,6 +72,10 @@ def main():
     elapsed_time = end_time - start_time
     print("Total time taken:", elapsed_time, "seconds")
 
+    with open('ecc_elapsed_time.txt', 'w') as elapsed_time_file:
+        elapsed_time_file.write(str(elapsed_time))
+
+
     # Call the second script and pass the elapsed time as a command-line argument
     subprocess.run(["python", "fastest-algo.py", str(elapsed_time)])
 
