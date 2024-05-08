@@ -1,0 +1,1 @@
+All memory profiling of the algorithms is handled in this directory. We're using the library 'memory_profiler' to check the Ram used by each algorithm. We'll draw plots of the memory consumption using a library named 'mem_plot'. 
